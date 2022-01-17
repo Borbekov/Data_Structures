@@ -36,12 +36,12 @@ class LinkedList {
     return this
   }
 
-  // метод удаляет подходящие узлы из списка по значению
+  // метод удаляет подходящие узлы из списка по значению и возвращает весь список
   delete(value) {
     if (!this.head) {
       return null // если список пустой, то возвращаем null
     }
-    if (this.head.value === value && !this.head.next) { // если узел сам себе head и tail, значит он единственный в списке
+    if (this.head.value === value && !this.head.next) { // если узел сам по себе head и tail, значит он единственный в списке
       this.head = null
       this.tail = null
       return this
@@ -63,12 +63,66 @@ class LinkedList {
     return this
   }
 
+  // метод удаляет последний узел и возвращает его
+  deleteTail() {
+    if (!this.tail) {
+      return null
+    }
+    let deletedNode = this.tail // записывает последний узел как удаленный узел
+    if (this.head.value === value && !this.head.next) { // если узел сам по себе head и tail, значит он единственный в списке
+      this.head = null
+      this.tail = null
+      return deletedNode
+    }
+    let currentNode = this.head
+    while(currentNode.next) { // пока узел не последний
+      if (!currentNode.next.next) {
+        currentNode.next = null
+      } else {
+        currentNode = currentNode.next
+      }
+    }
+    this.tail = currentNode // currentNode - это предпоследний узел или head
+    return deletedNode
+  }
+
+  // метод удаляет первый узел и возвращает его
+  deleteHead() {
+    if (!this.head) {
+      return null
+    }
+    let deletedNode = this.head // записывает первый узел как удаленный узел
+    if (this.head.next) { // если есть второй узел ...
+      this.head = this.head.next // то первым узлом становится второй узел
+    } else { // или если только один узел (сам по себе head и tail)
+      this.head = null
+      this.tail = null
+    }
+    return deletedNode
+  }
+
+  // метод находит подходящие узлы из списка по значению и возвращает массив найденных узлов
+  find(value) {
+    if (!this.head) {
+      return null // если список пустой, то возвращаем null 
+    }
+    let findedNodes = []
+    let currentNode = this.head
+    while (currentNode) {
+      if (currentNode.value === value) {
+        findedNodes.push(currentNode)
+      }
+      currentNode = currentNode.next // переходит на следующий узел
+    }
+    return findedNodes // возвращает массив найденных узлов
+  }
+
   getList() { // выводит список
-    console.log(this)
+    return this
   }
 }
 
 const linkedList = new LinkedList()
-linkedList.getList()
 linkedList.prepend(1)
 linkedList.append(2)
+linkedList.getList()
